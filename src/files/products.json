@@ -1,0 +1,29 @@
+[
+	{
+		"id": 1,
+		"title": "Title01",
+		"description": "Actualizacion",
+		"price": 299,
+		"image": "sin imagen",
+		"code": "abc123",
+		"stock": "20"
+	},
+	{
+		"id": 2,
+		"title": "Title02",
+		"description": "Actualizacion",
+		"price": 299,
+		"image": "sin imagen",
+		"code": "abc11123",
+		"stock": "20"
+	},
+	{
+		"id": 3,
+		"title": "Title03",
+		"description": "Actualizacion",
+		"price": 299,
+		"image": "sin imagen",
+		"code": "abca11123",
+		"stock": "20"
+	}
+]
