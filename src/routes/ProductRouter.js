@@ -39,8 +39,8 @@ router.get('/:pid', async (req, res) => {
 router.post('/', async (req, res) => {
     try {
         const product = req.body;
-        await productManager.addProduct(product);
-        res.json({ message: 'Producto agregado correctamente' });
+        const addedProduct = await productManager.addProduct(product);
+        res.json({ message: 'Producto agregado correctamente', product: addedProduct }); 
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'ERROR: ha ocurrido un error interno del servidor' });

@@ -6,36 +6,42 @@ class ProductManager {
     }
 
     async addProduct(product) {
-        const { title, description, price, image, code, stock } = product;
+        try {
+            const { title, description, code, price, status, stock, category, thumbnail } = product;
+    
+            if (!title || !description || !code || !price || !status || !category) {        //Verifico todos los campos
+                throw new Error('Todos los campos son obligatorios.');
+            }
+    
+            const products = await getJSONFromFile(this.path);
+    
+            if (products.find((existingProduct) => existingProduct.code === code)) {    //Verifico si existe un producto con el mismo code
+                throw new Error(`Error: Código (${code}) ya existente.`);
+            }
+    
+            let newId = products.length + 1;                                            //Nuevo id (puede haber problemas si se borran varios productos)
+    
+            const newProduct = {                                                        //Nuevo producto
+                id: newId,
+                title,
+                description,
+                code,
+                price,
+                status,
+                stock,
+                category,
+                thumbnail,
+            };
+    
+            products.push(newProduct);
+            console.warn(`Producto agregado correctamente.`);
+    
+            await saveJSONToFile(this.path, products);                                 //Guardo lista con el nuevo producto
 
-        if (!title || !description || !price || !image || !code || !stock) {        //Verifico todos los campos
-            console.error('Todos los campos son obligatorios.');
-            return;                                                                 //Me habia olvidado de este return antes daba igual esta validacion porque continuaba el codigo
+            return newProduct;
+        } catch (error) {
+            throw error;
         }
-
-        const products = await getJSONFromFile(this.path);
-
-        if (products.find((existingProduct) => existingProduct.code === code)) {    //Verifico si existe un producto con el mismo code
-            console.error(`Error: Código (${code}) ya existente.`);
-            return;
-        }
-
-        let newId = products.length + 1;                                            //Nuevo id (puede haber problemas si se borran varios productos)
-
-        const newProduct = {                                                        //Nuevo producto
-            id: newId,
-            title,
-            description,
-            price,
-            image,
-            code,
-            stock,
-        };
-
-        products.push(newProduct);
-        console.warn(`Producto agregado correctamente.`);
-
-        await saveJSONToFile(this.path, products);                                 //Guardo lista con el nuevo producto
     }
 
     async getProduct() {
